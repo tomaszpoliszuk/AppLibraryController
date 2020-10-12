@@ -1,0 +1,10 @@
+{
+	entry = {
+		cell = PSLinkCell;
+		isController = 1;
+		label = "App Library Controller";
+		bundle = AppLibraryControllerSettings;
+		detail = AppLibraryControllerSettings;
+		icon = icons/AppLibraryController.png;
+	};
+}

@@ -1,0 +1,80 @@
+{
+	title = "App Library Controller";
+	items = (
+		{
+			cell = PSSwitchCell;
+			key = "enableTweak";
+			label = "Enable Tweak";
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			icon = "icons/AppLibraryController.png";
+		},
+		{
+			cell = PSGroupCell;
+			label = "App Library";
+		},
+		{
+			cell = PSSwitchCell;
+			key = appLibraryCategories;
+			label = "Categories";
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+		},
+		{
+			cell = PSSwitchCell;
+			key = appLibraryCategoriesLabels;
+			label = "Categories Labels";
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+		},
+		{
+			cell = PSSwitchCell;
+			key = appLibraryCategoriesBackground;
+			label = "Categories Background";
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+		},
+		{
+			cell = PSGroupCell;
+			label = " ";
+		},
+		{
+			cell = PSButtonCell;
+			label = "Reset Settings";
+			action = resetSettings;
+			alignment = center;
+		},
+		{
+			cell = PSGroupCell;
+			label = "Related Links";
+		},
+		{
+			cell = PSButtonCell;
+			label = "Source Code";
+			action = sourceCode;
+			icon = "icons/code.png";
+		},
+		{
+			cell = PSButtonCell;
+			label = "Known Issues";
+			action = knownIssues;
+			icon = "icons/bug.png";
+		},
+		{
+			cell = PSButtonCell;
+			label = "Tomasz Poliszuk @ Github";
+			action = TomaszPoliszukAtGithub;
+			icon = "icons/github.png";
+		},
+		{
+			cell = PSButtonCell;
+			label = "Tomasz Poliszuk @ Twitter";
+			action = TomaszPoliszukAtTwitter;
+			icon = "icons/twitter.png";
+		},
+	);
+}
