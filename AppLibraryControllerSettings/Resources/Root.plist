@@ -12,7 +12,27 @@
 		},
 		{
 			cell = PSGroupCell;
-			label = "App Library";
+			label = "Choose First View:";
+		},
+		{
+			cell = PSSegmentCell;
+			key = "appLibrarySelectView";
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			validValues = (
+				0,
+				1
+			);
+			validTitles = (
+				"Categories",
+				"Alphabetic List"
+			);
+			height = 55;
+		},
+		{
+			cell = PSGroupCell;
+			label = "Categories Settings:";
 		},
 		{
 			cell = PSSwitchCell;

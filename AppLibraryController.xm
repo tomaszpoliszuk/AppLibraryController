@@ -1,8 +1,22 @@
+@interface UIView (AppLibraryController)
+-(id)_viewControllerForAncestor;
+@end
+
+@interface SBFTouchPassThroughView : UIView
+@end
+
+@interface SBHLibrarySearchController : UIViewController
+- (void)setActive:(bool)arg1;
+@end
+
+
 NSString *domainString = @"com.tomaszpoliszuk.applibrarycontroller";
 
 NSMutableDictionary *tweakSettings;
 
 static bool enableTweak;
+
+static int appLibrarySelectView;
 
 static bool appLibraryCategories;
 static bool appLibraryCategoriesLabels;
@@ -13,17 +27,21 @@ void TweakSettingsChanged() {
 
 	enableTweak = [( [tweakSettings objectForKey:@"enableTweak"] ?: @(YES) ) boolValue];
 
+	appLibrarySelectView = [([tweakSettings valueForKey:@"appLibrarySelectView"] ?: @(1)) integerValue];
+
 	appLibraryCategories = [( [tweakSettings objectForKey:@"appLibraryCategories"] ?: @(YES) ) boolValue];
 	appLibraryCategoriesLabels = [( [tweakSettings objectForKey:@"appLibraryCategoriesLabels"] ?: @(YES) ) boolValue];
 	appLibraryCategoriesBackground = [( [tweakSettings objectForKey:@"appLibraryCategoriesBackground"] ?: @(YES) ) boolValue];
 }
 
-@interface UIView (AppLibraryController)
--(id)_viewControllerForAncestor;
-@end
-
-@interface SBFTouchPassThroughView : UIView
-@end
+%hook SBHLibrarySearchController
+- (void)viewWillAppear:(bool)arg1 {
+	if ( enableTweak && appLibrarySelectView == 1 ) {
+		[self setActive:YES];
+	}
+	%orig;
+}
+%end
 
 %hook _SBHLibraryPodIconListView
 - (bool)isHidden {
@@ -127,6 +145,7 @@ void TweakSettingsChanged() {
 	%orig;
 }
 %end
+
 
 %ctor {
 	TweakSettingsChanged();

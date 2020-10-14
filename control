@@ -1,11 +1,15 @@
 Package: com.tomaszpoliszuk.applibrarycontroller
 Depends: firmware (>= 14.0), mobilesubstrate, preferenceloader
 Name: App Library Controller
-Version: 1.0
+Version: 1.1
 Architecture: iphoneos-arm
 Description: Control App Library
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=applibrarycontrollerDp
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=applibrarycontrollerDp
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Sponsor: thebigboss.org <http://thebigboss.org>
 Author: Tomasz Poliszuk
 Section: Tweaks
 dev: tomaszpoliszuk
-Tag: purpose::extension, compatible::ios14
+Tag: purpose::extension
 Icon: file:///Library/PreferenceBundles/AppLibraryControllerSettings.bundle/icons/AppLibraryController@3x.png
