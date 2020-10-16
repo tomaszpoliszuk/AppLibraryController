@@ -14,7 +14,7 @@ iOS 14 and above
 
 ## Screenshots:
 
-![settings](screenshots/alertcontroller1.png)
-![app library example](screenshots/alertcontroller2.jpg)
-![app library example](screenshots/alertcontroller3.jpg)
-![app library example](screenshots/alertcontroller4.jpg)
+![settings](screenshots/applibrarycontroller1.png)
+![app library example](screenshots/applibrarycontroller2.jpg)
+![app library example](screenshots/applibrarycontroller3.jpg)
+![app library example](screenshots/applibrarycontroller4.jpg)
