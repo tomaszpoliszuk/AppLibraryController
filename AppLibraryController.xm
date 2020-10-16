@@ -7,8 +7,8 @@
 
 @interface SBHLibrarySearchController : UIViewController
 - (void)setActive:(bool)arg1;
+- (void)setActive:(bool)arg1 animated:(bool)arg2;
 @end
-
 
 NSString *domainString = @"com.tomaszpoliszuk.applibrarycontroller";
 
@@ -38,6 +38,12 @@ void TweakSettingsChanged() {
 - (void)viewWillAppear:(bool)arg1 {
 	if ( enableTweak && appLibrarySelectView == 1 ) {
 		[self setActive:YES];
+	}
+	%orig;
+}
+- (void)searchBarTextDidEndEditing:(id)arg1 {
+	if ( enableTweak && appLibrarySelectView == 1 && !appLibraryCategories ) {
+		[self setActive:YES animated:NO];
 	}
 	%orig;
 }
