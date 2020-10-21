@@ -5,10 +5,15 @@ Control App Library
 iOS 14 and above
 
 ## What you can do with this tweak:
-* Choose First View (Categories, Alphabetic List)
-* Categories (Show/Hide)
-* Labels of Categories (Show/Hide)
-* Background of Categories (Show/Hide)
+* Select Mode (Default, Categories and Alphabetic List, Alphabetic List only, Disabled)
+* Alphabetic List Settings:
+    * Rounded Search Field (Enabled/Disabled)
+    * List Headers (Default/Enabled/Disabled)
+* Categories Settings:
+    * Labels of Categories (Show/Hide)
+    * Background of Categories (Show/Hide)
+    * Titles inside Folders (Show/Hide)
+    * Labels inside Folders (Show/Hide)
 
 **Configure options from Settings.**
 
@@ -17,4 +22,3 @@ iOS 14 and above
 ![settings](screenshots/applibrarycontroller1.png)
 ![app library example](screenshots/applibrarycontroller2.jpg)
 ![app library example](screenshots/applibrarycontroller3.jpg)
-![app library example](screenshots/applibrarycontroller4.jpg)

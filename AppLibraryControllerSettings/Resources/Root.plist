@@ -3,8 +3,8 @@
 	items = (
 		{
 			cell = PSSwitchCell;
-			key = "enableTweak";
-			label = "Enable Tweak";
+			key = enableTweak;
+			label = ENABLE_TWEAK;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
 			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
@@ -12,48 +12,92 @@
 		},
 		{
 			cell = PSGroupCell;
-			label = "Choose First View:";
+			label = APP_LIBRARY_MODE_;
 		},
 		{
-			cell = PSSegmentCell;
-			key = "appLibrarySelectView";
-			default = 1;
+			cell = PSLinkListCell;
+			detail = PSListItemsController;
+			key = "selectMode";
+			label = SELECT_MODE;
+			default = 0;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
 			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
 			validValues = (
 				0,
-				1
+				1,
+				2,
+				404,
 			);
 			validTitles = (
-				"Categories",
-				"Alphabetic List"
+				DEFAULT,
+				CATEGORIES_AND_ALPHABETIC_LIST,
+				ALPHABETIC_LIST_ONLY,
+				DISABLED,
 			);
-			height = 55;
 		},
 		{
 			cell = PSGroupCell;
-			label = "Categories Settings:";
+			label = ALPHABETIC_LIST_SETTINGS_;
 		},
 		{
 			cell = PSSwitchCell;
-			key = appLibraryCategories;
-			label = "Categories";
+			key = alphabeticListRoundedSearchField;
+			label = ROUNDED_SEARCH_FIELD;
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+		},
+		{
+			cell = PSLinkListCell;
+			detail = PSListItemsController;
+			key = "alphabeticListHeaders";
+			label = LIST_HEADERS;
+			default = 0;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			validValues = (
+				0,
+				1,
+				404,
+			);
+			validTitles = (
+				DEFAULT,
+				ENABLED,
+				DISABLED,
+			);
+		},
+		{
+			cell = PSGroupCell;
+			label = CATEGORIES_SETTINGS_;
+		},
+		{
+			cell = PSSwitchCell;
+			key = categoriesLabels;
+			label = CATEGORIES_LABELS;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
 			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
 		},
 		{
 			cell = PSSwitchCell;
-			key = appLibraryCategoriesLabels;
-			label = "Categories Labels";
+			key = categoriesBackground;
+			label = CATEGORIES_BACKGROUND;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
 			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
 		},
 		{
 			cell = PSSwitchCell;
-			key = appLibraryCategoriesBackground;
-			label = "Categories Background";
+			key = foldersTitles;
+			label = TITLES_INSIDE_FOLDERS;
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+		},
+		{
+			cell = PSSwitchCell;
+			key = foldersLabels;
+			label = LABELS_INSIDE_FOLDERS;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
 			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
@@ -64,35 +108,41 @@
 		},
 		{
 			cell = PSButtonCell;
-			label = "Reset Settings";
+			label = RESET_SETTINGS;
 			action = resetSettings;
 			alignment = center;
 		},
 		{
 			cell = PSGroupCell;
-			label = "Related Links";
+			label = RELATED_LINKS;
 		},
 		{
 			cell = PSButtonCell;
-			label = "Source Code";
+			label = SOURCE_CODE;
 			action = sourceCode;
 			icon = "icons/code.png";
 		},
 		{
 			cell = PSButtonCell;
-			label = "Known Issues";
+			label = KNOWN_ISSUES;
 			action = knownIssues;
 			icon = "icons/bug.png";
 		},
 		{
 			cell = PSButtonCell;
-			label = "Tomasz Poliszuk @ Github";
+			label = TOMASZ_POLISZUK_AT_BIGBOSS;
+			action = TomaszPoliszukAtBigBoss;
+			icon = "icons/packages.png";
+		},
+		{
+			cell = PSButtonCell;
+			label = TOMASZ_POLISZUK_AT_GITHUB;
 			action = TomaszPoliszukAtGithub;
 			icon = "icons/github.png";
 		},
 		{
 			cell = PSButtonCell;
-			label = "Tomasz Poliszuk @ Twitter";
+			label = TOMASZ_POLISZUK_AT_TWITTER;
 			action = TomaszPoliszukAtTwitter;
 			icon = "icons/twitter.png";
 		},

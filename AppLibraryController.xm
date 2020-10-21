@@ -16,33 +16,43 @@ NSMutableDictionary *tweakSettings;
 
 static bool enableTweak;
 
-static int appLibrarySelectView;
+static int selectMode;
 
-static bool appLibraryCategories;
-static bool appLibraryCategoriesLabels;
-static bool appLibraryCategoriesBackground;
+static bool alphabeticListRoundedSearchField;
+static int alphabeticListHeaders;
+
+static bool categoriesLabels;
+static bool categoriesBackground;
+
+static bool foldersTitles;
+static bool foldersLabels;
 
 void TweakSettingsChanged() {
 	NSUserDefaults *tweakSettings = [[NSUserDefaults alloc] initWithSuiteName:domainString];
 
 	enableTweak = [( [tweakSettings objectForKey:@"enableTweak"] ?: @(YES) ) boolValue];
 
-	appLibrarySelectView = [([tweakSettings valueForKey:@"appLibrarySelectView"] ?: @(1)) integerValue];
+	selectMode = [([tweakSettings valueForKey:@"selectMode"] ?: @(1)) integerValue];
 
-	appLibraryCategories = [( [tweakSettings objectForKey:@"appLibraryCategories"] ?: @(YES) ) boolValue];
-	appLibraryCategoriesLabels = [( [tweakSettings objectForKey:@"appLibraryCategoriesLabels"] ?: @(YES) ) boolValue];
-	appLibraryCategoriesBackground = [( [tweakSettings objectForKey:@"appLibraryCategoriesBackground"] ?: @(YES) ) boolValue];
+	alphabeticListRoundedSearchField = [( [tweakSettings objectForKey:@"alphabeticListRoundedSearchField"] ?: @(YES) ) boolValue];
+	alphabeticListHeaders = [([tweakSettings valueForKey:@"alphabeticListHeaders"] ?: @(0)) integerValue];
+
+	categoriesLabels = [( [tweakSettings objectForKey:@"categoriesLabels"] ?: @(YES) ) boolValue];
+	categoriesBackground = [( [tweakSettings objectForKey:@"categoriesBackground"] ?: @(YES) ) boolValue];
+
+	foldersTitles = [( [tweakSettings objectForKey:@"foldersTitles"] ?: @(YES) ) boolValue];
+	foldersLabels = [( [tweakSettings objectForKey:@"foldersLabels"] ?: @(YES) ) boolValue];
 }
 
 %hook SBHLibrarySearchController
 - (void)viewWillAppear:(bool)arg1 {
-	if ( enableTweak && appLibrarySelectView == 1 ) {
+	if ( enableTweak && selectMode == 2 ) {
 		[self setActive:YES];
 	}
 	%orig;
 }
 - (void)searchBarTextDidEndEditing:(id)arg1 {
-	if ( enableTweak && appLibrarySelectView == 1 && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 1 && selectMode == 2 ) {
 		[self setActive:YES animated:NO];
 	}
 	%orig;
@@ -52,13 +62,13 @@ void TweakSettingsChanged() {
 %hook _SBHLibraryPodIconListView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		arg1 = YES;
 	}
 	%orig;
@@ -68,7 +78,7 @@ void TweakSettingsChanged() {
 %hook SBFTouchPassThroughView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		if ([[self _viewControllerForAncestor] isKindOfClass:%c(SBHLibraryPodFolderController)]) {
 			return YES;
 		}
@@ -76,7 +86,7 @@ void TweakSettingsChanged() {
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		if ([[self _viewControllerForAncestor] isKindOfClass:%c(SBHLibraryPodFolderController)]) {
 			arg1 = YES;
 		}
@@ -88,13 +98,13 @@ void TweakSettingsChanged() {
 %hook SBHLibraryPodFolderView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		arg1 = YES;
 	}
 	%orig;
@@ -104,40 +114,27 @@ void TweakSettingsChanged() {
 %hook _SBHLibraryPodIconView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		arg1 = YES;
 	}
 	%orig;
 }
 - (bool)allIconElementsButLabelHidden {
 	bool origValue = %orig;
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setAllIconElementsButLabelHidden:(bool)arg1 {
-	if ( enableTweak && !appLibraryCategories ) {
+	if ( enableTweak && selectMode == 2 ) {
 		arg1 = YES;
-	}
-	%orig;
-}
-- (bool)allowsLabelArea {
-	bool origValue = %orig;
-	if ( enableTweak && ( !appLibraryCategoriesLabels || !appLibraryCategories ) ) {
-		return NO;
-	}
-	return origValue;
-}
-- (void)configureForLabelAllowed:(bool)arg1 {
-	if ( enableTweak && ( !appLibraryCategoriesLabels || !appLibraryCategories ) ) {
-		arg1 = NO;
 	}
 	%orig;
 }
@@ -145,13 +142,86 @@ void TweakSettingsChanged() {
 
 %hook SBHLibraryCategoryPodBackgroundView
 - (void)_updateVisualStyle {
-	if ( enableTweak && !appLibraryCategoriesBackground ) {
+	if ( enableTweak && !categoriesBackground ) {
 		return;
 	}
 	%orig;
 }
 %end
 
+%hook SBIconController
+- (bool)isAppLibraryAllowed {
+	bool origValue = %orig;
+	if ( enableTweak && selectMode == 404 ) {
+		return NO;
+	} else if ( enableTweak && selectMode == ( 1 | 2 ) ) {
+		return YES;
+	}
+	return origValue;
+}
+- (bool)isAppLibrarySupported {
+	bool origValue = %orig;
+	if ( enableTweak && selectMode == 404 ) {
+		return NO;
+	} else if ( enableTweak && selectMode == ( 1 | 2 ) ) {
+		return YES;
+	}
+	return origValue;
+}
+%end
+
+%hook SBHAppLibrarySettings
+- (long long)minimumNumberOfIconsToShowSectionHeaderInDeweySearch {
+	long long origValue = %orig;
+	if ( enableTweak && alphabeticListHeaders == 404 ) {
+		return 10000;
+	} else if ( enableTweak && alphabeticListHeaders == 1 ) {
+		return 1;
+	}
+	return origValue;
+}
+%end
+
+%hook SBHAppLibraryVisualConfiguration
+- (double)searchContinuousCornerRadius {
+	double origValue = %orig;
+	if ( enableTweak && !alphabeticListRoundedSearchField ) {
+		return 0;
+	}
+	return origValue;
+}
+%end
+
+%hook SBLeafIcon
+- (id)displayNameForLocation:(id)arg1 {
+	id origValue = %orig;
+	if ( enableTweak ) {
+
+		if ( ( selectMode == 2 && [arg1 hasPrefix:@"SBIconLocationAppLibrary"] && ![arg1 hasSuffix:@"Search"] ) || ( [arg1 isEqual:@"SBIconLocationAppLibrary"] && !categoriesLabels ) || ( [arg1 hasPrefix:@"SBIconLocationAppLibraryCategory"] && !foldersLabels ) ) {
+			return nil;
+		}
+	}
+	return origValue;
+}
+- (long long)accessoryTypeForLocation:(id)arg1 {
+	long long origValue = %orig;
+	if ( enableTweak ) {
+		if ( ( selectMode == 2 && [arg1 hasPrefix:@"SBIconLocationAppLibrary"] && ![arg1 hasSuffix:@"Search"] ) || ( [arg1 isEqual:@"SBIconLocationAppLibrary"] && !categoriesLabels ) || ( [arg1 hasPrefix:@"SBIconLocationAppLibraryCategory"] && !foldersLabels ) ) {
+			return nil;
+		}
+	}
+	return origValue;
+}
+%end
+
+%hook SBHFeatherBlurNavigationBar
+- (void)layoutSubviews {
+	if ( enableTweak && !foldersTitles ) {
+		return;
+	}
+	%orig;
+}
+%end
 
 %ctor {
 	TweakSettingsChanged();
