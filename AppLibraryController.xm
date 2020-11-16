@@ -6,11 +6,16 @@
 @end
 
 @interface SBHLibrarySearchController : UIViewController
-- (void)setActive:(bool)arg1;
 - (void)setActive:(bool)arg1 animated:(bool)arg2;
+- (bool)isSearchFieldEditing;
 @end
 
-NSString *domainString = @"com.tomaszpoliszuk.applibrarycontroller";
+@interface SBIconController : UIViewController
++ (id)sharedInstance;
+- (void)dismissLibraryOverlayAnimated:(bool)arg1;
+@end
+
+NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
 
 NSMutableDictionary *tweakSettings;
 
@@ -47,13 +52,19 @@ void TweakSettingsChanged() {
 %hook SBHLibrarySearchController
 - (void)viewWillAppear:(bool)arg1 {
 	if ( enableTweak && selectMode == 2 ) {
-		[self setActive:YES];
+		[self setActive:YES animated:NO];
 	}
 	%orig;
 }
 - (void)searchBarTextDidEndEditing:(id)arg1 {
-	if ( enableTweak && selectMode == 1 && selectMode == 2 ) {
+	if ( enableTweak && selectMode == 2 ) {
 		[self setActive:YES animated:NO];
+	}
+	%orig;
+}
+- (void)_willDismissSearchAnimated:(bool)arg1 {
+	if ( enableTweak && selectMode == 2 && !self.isSearchFieldEditing ) {
+		[[%c(SBIconController) sharedInstance] dismissLibraryOverlayAnimated:YES];
 	}
 	%orig;
 }

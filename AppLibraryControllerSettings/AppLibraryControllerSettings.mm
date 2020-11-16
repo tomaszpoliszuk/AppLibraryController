@@ -8,7 +8,7 @@
 //	FadeToBlackTransition	= (1 << 2), // 4 in decimal
 //} SBSRelaunchActionStyle;
 
-NSString *domainString = @"com.tomaszpoliszuk.applibrarycontroller";
+NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
 
 @interface BSAction : NSObject
 @end
