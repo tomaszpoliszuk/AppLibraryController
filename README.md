@@ -17,6 +17,10 @@ iOS 14 and above
 
 **Configure options from Settings.**
 
+
+### for iPad Users:
+if you wish to have partially working App Library on your device select "Alphabetic List" mode and install [Activator Listeners for App Library](http://cydia.saurik.com/package/com.tomaszpoliszuk.activatorlistenersforapplibrary/) then assign Events to show/hide Alphabetic List part of App Library
+
 ## Screenshots:
 
 ![settings](screenshots/applibrarycontroller1.png)
