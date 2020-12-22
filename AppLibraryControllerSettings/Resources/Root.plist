@@ -12,6 +12,29 @@
 		},
 		{
 			cell = PSGroupCell;
+			label = "UI Style";
+		},
+		{
+			cell = PSSegmentCell;
+			default = 999;
+			key = "uiStyle";
+			label = "UI_STYLE";
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			validValues = (
+				999,
+				1,
+				2
+			);
+			validTitles = (
+				DEFAULT,
+				LIGHT,
+				DARK
+			);
+			height = 55;
+		},
+		{
+			cell = PSGroupCell;
 			label = APP_LIBRARY_MODE_;
 		},
 		{

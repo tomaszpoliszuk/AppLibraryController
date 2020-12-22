@@ -39,6 +39,8 @@ NSMutableDictionary *tweakSettings;
 
 static bool enableTweak;
 
+static int uiStyle;
+
 static int selectMode;
 
 static bool alphabeticListRoundedSearchField;
@@ -55,6 +57,8 @@ void TweakSettingsChanged() {
 
 	enableTweak = [( [tweakSettings objectForKey:@"enableTweak"] ?: @(YES) ) boolValue];
 
+	uiStyle = [([tweakSettings valueForKey:@"uiStyle"] ?: @(999)) integerValue];
+
 	selectMode = [([tweakSettings valueForKey:@"selectMode"] ?: @(1)) integerValue];
 
 	alphabeticListRoundedSearchField = [( [tweakSettings objectForKey:@"alphabeticListRoundedSearchField"] ?: @(YES) ) boolValue];
@@ -68,9 +72,20 @@ void TweakSettingsChanged() {
 }
 
 %hook SBHLibrarySearchController
+%new
+-(void)updateTraitOverride {
+	if ( enableTweak && uiStyle != 999 ) {
+		[self setOverrideUserInterfaceStyle:uiStyle];
+	}
+}
 - (void)viewWillAppear:(bool)arg1 {
-	if ( enableTweak && selectMode == 2 ) {
-		[self setActive:YES animated:NO];
+	if ( enableTweak ) {
+		if ( uiStyle != 999 ) {
+			[self setOverrideUserInterfaceStyle:uiStyle];
+		}
+		if ( selectMode == 2 ) {
+			[self setActive:YES animated:NO];
+		}
 	}
 	%orig;
 }

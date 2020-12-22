@@ -1,8 +1,11 @@
 {
 	ENABLE_TWEAK = "Enable Tweak";
+	UI_STYLE = "UI Style";
+	DEFAULT = Default;
+	LIGHT = "Light";
+	DARK = "Dark";
 	APP_LIBRARY_MODE_ = "App Library Mode:";
 	SELECT_MODE = "Select Mode";
-	DEFAULT = Default;
 	ENABLED = Enabled;
 	DISABLED = Disabled;
 	ALPHABETIC_LIST_ONLY = "Alphabetic List only";
