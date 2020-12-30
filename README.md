@@ -5,6 +5,7 @@ Control App Library
 iOS 14 and above
 
 ## What you can do with this tweak:
+* Select UI Style of App Library (Default, Light, Dark)
 * Select Mode (Default, Categories and Alphabetic List, Alphabetic List only, Disabled)
 * Alphabetic List Settings:
     * Rounded Search Field (Enabled/Disabled)
