@@ -59,7 +59,7 @@ void TweakSettingsChanged() {
 
 	uiStyle = [([tweakSettings valueForKey:@"uiStyle"] ?: @(999)) integerValue];
 
-	selectMode = [([tweakSettings valueForKey:@"selectMode"] ?: @(1)) integerValue];
+	selectMode = [([tweakSettings valueForKey:@"selectMode"] ?: @(0)) integerValue];
 
 	alphabeticListRoundedSearchField = [( [tweakSettings objectForKey:@"alphabeticListRoundedSearchField"] ?: @(YES) ) boolValue];
 	alphabeticListHeaders = [([tweakSettings valueForKey:@"alphabeticListHeaders"] ?: @(0)) integerValue];
@@ -240,7 +240,6 @@ void TweakSettingsChanged() {
 - (id)displayNameForLocation:(id)arg1 {
 	id origValue = %orig;
 	if ( enableTweak ) {
-
 		if ( ( selectMode == 2 && [arg1 hasPrefix:@"SBIconLocationAppLibrary"] && ![arg1 hasSuffix:@"Search"] ) || ( [arg1 isEqual:@"SBIconLocationAppLibrary"] && !categoriesLabels ) || ( [arg1 hasPrefix:@"SBIconLocationAppLibraryCategory"] && !foldersLabels ) ) {
 			return nil;
 		}
@@ -264,6 +263,23 @@ void TweakSettingsChanged() {
 		return;
 	}
 	%orig;
+}
+%end
+
+%hook SBRootFolderView
+- (bool)_shouldIgnoreOverscrollOnLastPageForCurrentOrientation {
+	bool origValue = %orig;
+	if ( enableTweak && ( selectMode == 1 || selectMode == 2 ) ) {
+		return YES;
+	}
+	return origValue;
+}
+- (bool)_shouldIgnoreOverscrollOnLastPageForOrientation:(long long)arg1 {
+	bool origValue = %orig;
+	if ( enableTweak && ( selectMode == 1 || selectMode == 2 ) ) {
+		return YES;
+	}
+	return origValue;
 }
 %end
 
