@@ -60,6 +60,28 @@
 		},
 		{
 			cell = PSGroupCell;
+			label = "App Library Gesture";
+		},
+		{
+			cell = PSSegmentCell;
+			key = appLibraryGesture;
+			default = 999;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			validValues = (
+				999,
+				0,
+				1,
+			);
+			validTitles = (
+				Default,
+				Disabled,
+				Enabled,
+			);
+			height = 55;
+		},
+		{
+			cell = PSGroupCell;
 			label = ALPHABETIC_LIST_SETTINGS_;
 		},
 		{

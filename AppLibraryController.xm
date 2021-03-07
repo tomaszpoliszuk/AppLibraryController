@@ -43,6 +43,8 @@ static int uiStyle;
 
 static int selectMode;
 
+static bool appLibraryGesture;
+
 static bool alphabeticListRoundedSearchField;
 static int alphabeticListHeaders;
 
@@ -60,6 +62,8 @@ void TweakSettingsChanged() {
 	uiStyle = [([tweakSettings valueForKey:@"uiStyle"] ?: @(999)) integerValue];
 
 	selectMode = [([tweakSettings valueForKey:@"selectMode"] ?: @(0)) integerValue];
+
+	appLibraryGesture = [( [tweakSettings objectForKey:@"appLibraryGesture"] ?: @(YES) ) boolValue];
 
 	alphabeticListRoundedSearchField = [( [tweakSettings objectForKey:@"alphabeticListRoundedSearchField"] ?: @(YES) ) boolValue];
 	alphabeticListHeaders = [([tweakSettings valueForKey:@"alphabeticListHeaders"] ?: @(0)) integerValue];
@@ -269,15 +273,15 @@ void TweakSettingsChanged() {
 %hook SBRootFolderView
 - (bool)_shouldIgnoreOverscrollOnLastPageForCurrentOrientation {
 	bool origValue = %orig;
-	if ( enableTweak && ( selectMode == 1 || selectMode == 2 ) ) {
-		return YES;
+	if ( enableTweak && selectMode != 404 ) {
+		return appLibraryGesture;
 	}
 	return origValue;
 }
 - (bool)_shouldIgnoreOverscrollOnLastPageForOrientation:(long long)arg1 {
 	bool origValue = %orig;
-	if ( enableTweak && ( selectMode == 1 || selectMode == 2 ) ) {
-		return YES;
+	if ( enableTweak && selectMode != 404 ) {
+		return appLibraryGesture;
 	}
 	return origValue;
 }
