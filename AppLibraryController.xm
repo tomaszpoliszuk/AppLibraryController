@@ -20,17 +20,20 @@
 -(id)_viewControllerForAncestor;
 @end
 
-@interface SBFTouchPassThroughView : UIView
-@end
-
-@interface SBHLibrarySearchController : UIViewController
-- (void)setActive:(bool)arg1 animated:(bool)arg2;
-- (bool)isSearchFieldEditing;
+@interface SBIconView : UIView
 @end
 
 @interface SBIconController : UIViewController
 + (id)sharedInstance;
 - (void)dismissLibraryOverlayAnimated:(bool)arg1;
+@end
+
+@interface SBFTouchPassThroughView : UIView
+@end
+
+@interface SBHLibrarySearchController : UIViewController
+- (bool)isSearchFieldEditing;
+- (void)setActive:(bool)arg1 animated:(bool)arg2;
 @end
 
 NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
@@ -41,7 +44,7 @@ static bool enableTweak;
 
 static int uiStyle;
 
-static int selectMode;
+static int appLibrarytMode;
 
 static bool appLibraryGesture;
 
@@ -61,7 +64,7 @@ void TweakSettingsChanged() {
 
 	uiStyle = [([tweakSettings valueForKey:@"uiStyle"] ?: @(999)) integerValue];
 
-	selectMode = [([tweakSettings valueForKey:@"selectMode"] ?: @(0)) integerValue];
+	appLibrarytMode = [([tweakSettings valueForKey:@"appLibrarytMode"] ?: @(2)) integerValue];
 
 	appLibraryGesture = [( [tweakSettings objectForKey:@"appLibraryGesture"] ?: @(YES) ) boolValue];
 
@@ -87,20 +90,20 @@ void TweakSettingsChanged() {
 		if ( uiStyle != 999 ) {
 			[self setOverrideUserInterfaceStyle:uiStyle];
 		}
-		if ( selectMode == 2 ) {
-			[self setActive:YES animated:NO];
+		if ( appLibrarytMode == 2 ) {
+			[self setActive:YES animated:YES];
 		}
 	}
 	%orig;
 }
 - (void)searchBarTextDidEndEditing:(id)arg1 {
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		[self setActive:YES animated:NO];
 	}
 	%orig;
 }
 - (void)_willDismissSearchAnimated:(bool)arg1 {
-	if ( enableTweak && selectMode == 2 && !self.isSearchFieldEditing ) {
+	if ( enableTweak && appLibrarytMode == 2 && !self.isSearchFieldEditing ) {
 		[[%c(SBIconController) sharedInstance] dismissLibraryOverlayAnimated:YES];
 	}
 	%orig;
@@ -110,13 +113,13 @@ void TweakSettingsChanged() {
 %hook _SBHLibraryPodIconListView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		arg1 = YES;
 	}
 	%orig;
@@ -126,7 +129,7 @@ void TweakSettingsChanged() {
 %hook SBFTouchPassThroughView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		if ([[self _viewControllerForAncestor] isKindOfClass:%c(SBHLibraryPodFolderController)]) {
 			return YES;
 		}
@@ -134,7 +137,7 @@ void TweakSettingsChanged() {
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		if ([[self _viewControllerForAncestor] isKindOfClass:%c(SBHLibraryPodFolderController)]) {
 			arg1 = YES;
 		}
@@ -146,13 +149,13 @@ void TweakSettingsChanged() {
 %hook SBHLibraryPodFolderView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		arg1 = YES;
 	}
 	%orig;
@@ -162,26 +165,26 @@ void TweakSettingsChanged() {
 %hook _SBHLibraryPodIconView
 - (bool)isHidden {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setHidden:(bool)arg1 {
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		arg1 = YES;
 	}
 	%orig;
 }
 - (bool)allIconElementsButLabelHidden {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		return YES;
 	}
 	return origValue;
 }
 - (void)setAllIconElementsButLabelHidden:(bool)arg1 {
-	if ( enableTweak && selectMode == 2 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		arg1 = YES;
 	}
 	%orig;
@@ -200,18 +203,18 @@ void TweakSettingsChanged() {
 %hook SBIconController
 - (bool)isAppLibraryAllowed {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode == 404 ) {
+	if ( enableTweak && appLibrarytMode == 404 ) {
 		return NO;
-	} else if ( enableTweak && selectMode == ( 1 | 2 ) ) {
+	} else if ( enableTweak && appLibrarytMode == ( 1 | 2 ) ) {
 		return YES;
 	}
 	return origValue;
 }
 - (bool)isAppLibrarySupported {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode == 404 ) {
+	if ( enableTweak && appLibrarytMode == 404 ) {
 		return NO;
-	} else if ( enableTweak && selectMode == ( 1 | 2 ) ) {
+	} else if ( enableTweak && appLibrarytMode == ( 1 | 2 ) ) {
 		return YES;
 	}
 	return origValue;
@@ -244,7 +247,7 @@ void TweakSettingsChanged() {
 - (id)displayNameForLocation:(id)arg1 {
 	id origValue = %orig;
 	if ( enableTweak ) {
-		if ( ( selectMode == 2 && [arg1 hasPrefix:@"SBIconLocationAppLibrary"] && ![arg1 hasSuffix:@"Search"] ) || ( [arg1 isEqual:@"SBIconLocationAppLibrary"] && !categoriesLabels ) || ( [arg1 hasPrefix:@"SBIconLocationAppLibraryCategory"] && !foldersLabels ) ) {
+		if ( ( appLibrarytMode == 2 && [arg1 hasPrefix:@"SBIconLocationAppLibrary"] && ![arg1 hasSuffix:@"Search"] ) || ( [arg1 isEqual:@"SBIconLocationAppLibrary"] && !categoriesLabels ) || ( [arg1 hasPrefix:@"SBIconLocationAppLibraryCategory"] && !foldersLabels ) ) {
 			return nil;
 		}
 	}
@@ -253,7 +256,7 @@ void TweakSettingsChanged() {
 - (long long)accessoryTypeForLocation:(id)arg1 {
 	long long origValue = %orig;
 	if ( enableTweak ) {
-		if ( ( selectMode == 2 && [arg1 hasPrefix:@"SBIconLocationAppLibrary"] && ![arg1 hasSuffix:@"Search"] ) || ( [arg1 isEqual:@"SBIconLocationAppLibrary"] && !categoriesLabels ) || ( [arg1 hasPrefix:@"SBIconLocationAppLibraryCategory"] && !foldersLabels ) ) {
+		if ( ( appLibrarytMode == 2 && [arg1 hasPrefix:@"SBIconLocationAppLibrary"] && ![arg1 hasSuffix:@"Search"] ) || ( [arg1 isEqual:@"SBIconLocationAppLibrary"] && !categoriesLabels ) || ( [arg1 hasPrefix:@"SBIconLocationAppLibraryCategory"] && !foldersLabels ) ) {
 			return nil;
 		}
 	}
@@ -273,20 +276,31 @@ void TweakSettingsChanged() {
 %hook SBRootFolderView
 - (bool)_shouldIgnoreOverscrollOnLastPageForCurrentOrientation {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode != 404 ) {
+	if ( enableTweak && appLibrarytMode != 404 ) {
 		return appLibraryGesture;
 	}
 	return origValue;
 }
 - (bool)_shouldIgnoreOverscrollOnLastPageForOrientation:(long long)arg1 {
 	bool origValue = %orig;
-	if ( enableTweak && selectMode != 404 ) {
+	if ( enableTweak && appLibrarytMode != 404 ) {
 		return appLibraryGesture;
 	}
 	return origValue;
 }
 %end
 
+%hook SBIconView
+- (bool)allowsAccessoryView {
+	bool origValue = %orig;
+	if ( enableTweak && [[self _viewControllerForAncestor] isKindOfClass:%c(SBHIconLibraryTableViewController)]) {
+		NSMutableDictionary *defaults = [NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/Library/Preferences/com.apple.springboard.plist", NSHomeDirectory()]];
+		bool sbHomeScreenShowsBadgesInAppLibrary = [[defaults objectForKey:@"SBHomeScreenShowsBadgesInAppLibrary"] boolValue];
+		return sbHomeScreenShowsBadgesInAppLibrary;
+	}
+	return origValue;
+}
+%end
 %ctor {
 	TweakSettingsChanged();
 	CFNotificationCenterAddObserver(

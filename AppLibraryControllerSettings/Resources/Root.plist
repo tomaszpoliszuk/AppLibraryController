@@ -1,5 +1,5 @@
 {
-	title = "App Library Controller";
+	title = APP_LIBRARY_CONTROLLER;
 	items = (
 		{
 			cell = PSSwitchCell;
@@ -7,20 +7,19 @@
 			label = ENABLE_TWEAK;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
-			icon = "icons/AppLibraryController.png";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
+			icon = icons/AppLibraryController.png;
 		},
 		{
 			cell = PSGroupCell;
-			label = "UI Style";
+			label = UI_STYLE;
 		},
 		{
 			cell = PSSegmentCell;
 			default = 999;
-			key = "uiStyle";
-			label = "UI_STYLE";
+			key = uiStyle;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 			validValues = (
 				999,
 				1,
@@ -35,50 +34,42 @@
 		},
 		{
 			cell = PSGroupCell;
-			label = APP_LIBRARY_MODE_;
+			label = APP_LIBRARY_SETTINGS_;
 		},
 		{
 			cell = PSLinkListCell;
 			detail = PSListItemsController;
-			key = "selectMode";
-			label = SELECT_MODE;
-			default = 0;
+			key = appLibrarytMode;
+			label = APP_LIBRARY_MODE;
+			default = 2;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 			validValues = (
-				0,
 				1,
 				2,
 				404,
 			);
 			validTitles = (
-				DEFAULT,
-				CATEGORIES_AND_ALPHABETIC_LIST,
+				ENABLED,
 				ALPHABETIC_LIST_ONLY,
 				DISABLED,
 			);
 		},
 		{
-			cell = PSGroupCell;
-			label = "App Library Gesture";
+			cell = PSSwitchCell;
+			key = appLibraryGesture;
+			label = GESTURE;
+			default = 1;
+			defaults = com.tomaszpoliszuk.applibrarycontroller;
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 		},
 		{
-			cell = PSSegmentCell;
-			key = appLibraryGesture;
-			default = 999;
-			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
-			validValues = (
-				999,
-				0,
-				1,
-			);
-			validTitles = (
-				Default,
-				Disabled,
-				Enabled,
-			);
-			height = 55;
+			cell = PSSwitchCell;
+			key = SBHomeScreenShowsBadgesInAppLibrary;
+			label = NOTIFICATION_BADGES;
+			default = 1;
+			defaults = com.apple.springboard;
+			PostNotification = com.apple.springboard-prefsChanged;
 		},
 		{
 			cell = PSGroupCell;
@@ -90,16 +81,16 @@
 			label = ROUNDED_SEARCH_FIELD;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 		},
 		{
 			cell = PSLinkListCell;
 			detail = PSListItemsController;
-			key = "alphabeticListHeaders";
+			key = alphabeticListHeaders;
 			label = LIST_HEADERS;
 			default = 0;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 			validValues = (
 				0,
 				1,
@@ -118,34 +109,39 @@
 		{
 			cell = PSSwitchCell;
 			key = categoriesLabels;
-			label = CATEGORIES_LABELS;
+			label = LABELS;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 		},
 		{
 			cell = PSSwitchCell;
 			key = categoriesBackground;
-			label = CATEGORIES_BACKGROUND;
+			label = BACKGROUND;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
+		},
+		{
+			cell = PSGroupCell;
+			label = FOLDERS_SETTINGS_;
 		},
 		{
 			cell = PSSwitchCell;
 			key = foldersTitles;
-			label = TITLES_INSIDE_FOLDERS;
+			label = TITLES;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 		},
 		{
 			cell = PSSwitchCell;
 			key = foldersLabels;
-			label = LABELS_INSIDE_FOLDERS;
+			label = LABELS;
 			default = 1;
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
-			PostNotification = "com.tomaszpoliszuk.applibrarycontroller.settingschanged";
+			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
+		},
 		},
 		{
 			cell = PSGroupCell;
@@ -165,31 +161,31 @@
 			cell = PSButtonCell;
 			label = SOURCE_CODE;
 			action = sourceCode;
-			icon = "icons/code.png";
+			icon = icons/code.png;
 		},
 		{
 			cell = PSButtonCell;
 			label = KNOWN_ISSUES;
 			action = knownIssues;
-			icon = "icons/bug.png";
+			icon = icons/bug.png;
 		},
 		{
 			cell = PSButtonCell;
 			label = TOMASZ_POLISZUK_AT_BIGBOSS;
 			action = TomaszPoliszukAtBigBoss;
-			icon = "icons/packages.png";
+			icon = icons/packages.png;
 		},
 		{
 			cell = PSButtonCell;
 			label = TOMASZ_POLISZUK_AT_GITHUB;
 			action = TomaszPoliszukAtGithub;
-			icon = "icons/github.png";
+			icon = icons/github.png;
 		},
 		{
 			cell = PSButtonCell;
 			label = TOMASZ_POLISZUK_AT_TWITTER;
 			action = TomaszPoliszukAtTwitter;
-			icon = "icons/twitter.png";
+			icon = icons/twitter.png;
 		},
 	);
 }
