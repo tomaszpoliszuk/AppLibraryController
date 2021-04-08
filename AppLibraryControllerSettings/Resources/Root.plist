@@ -142,6 +142,26 @@
 			defaults = com.tomaszpoliszuk.applibrarycontroller;
 			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 		},
+		{
+			cell = PSGroupCell;
+			label = "Activator Listeners";
+			key = "activatorGroup";
+		},
+		{
+			cell = PSLinkCell;
+			key = "activatorShow";
+			label = "Show App Library";
+			isController = 1;
+			bundle = LibActivator;
+			activatorListener = com.tomaszpoliszuk.activatorlistenersforapplibrary.show;
+		},
+		{
+			cell = PSLinkCell;
+			key = "activatorHide";
+			label = "Hide App Library";
+			isController = 1;
+			bundle = LibActivator;
+			activatorListener = com.tomaszpoliszuk.activatorlistenersforapplibrary.hide;
 		},
 		{
 			cell = PSGroupCell;

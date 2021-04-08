@@ -17,6 +17,9 @@ iOS 14 and above
 * Folders Settings:
 	* Titles inside Folders (Show/Hide)
 	* Labels inside Folders (Show/Hide)
+* Activator Listeners
+	* Show App Library
+	* Hide App Library
 
 **Configure options from Settings.**
 

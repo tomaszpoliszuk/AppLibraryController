@@ -49,6 +49,14 @@ NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
 - (NSArray *)specifiers {
 	if (!_specifiers) {
 		_specifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
+		if ( ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Activator.dylib"] ) {
+			for(PSSpecifier* specifier in _specifiers) {
+				NSString* key = [specifier propertyForKey:@"key"];
+				if( [key hasPrefix:@"activator"] ) {
+					[self removeSpecifier:specifier];
+				}
+			}
+		}
 	}
 	return _specifiers;
 }

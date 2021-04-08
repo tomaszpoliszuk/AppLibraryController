@@ -301,6 +301,7 @@ void TweakSettingsChanged() {
 	return origValue;
 }
 %end
+
 %ctor {
 	TweakSettingsChanged();
 	CFNotificationCenterAddObserver(

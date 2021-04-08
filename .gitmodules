@@ -1,0 +1,3 @@
+[submodule "ActivatorListenersForAppLibrary"]
+	path = ActivatorListenersForAppLibrary
+	url = https://github.com/tomaszpoliszuk/ActivatorListenersForAppLibrary
