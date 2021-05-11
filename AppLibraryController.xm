@@ -32,11 +32,20 @@
 @end
 
 @interface SBHLibrarySearchController : UIViewController
+- (bool)isActive;
 - (bool)isSearchFieldEditing;
 - (void)setActive:(bool)arg1 animated:(bool)arg2;
 @end
 
+@interface SBNestingViewController : UIViewController
+@end
+@interface SBHLibraryViewController : SBNestingViewController
+@property (nonatomic, readonly) SBHLibrarySearchController *containerViewController;
+@end
+
 NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
+
+#define kIsiOS14_5AndUp [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){14, 5, 0}]
 
 NSMutableDictionary *tweakSettings;
 
@@ -103,7 +112,22 @@ void TweakSettingsChanged() {
 	%orig;
 }
 - (void)_willDismissSearchAnimated:(bool)arg1 {
-	if ( enableTweak && appLibrarytMode == 2 && !self.isSearchFieldEditing ) {
+	if ( enableTweak && appLibrarytMode == 2 && !self.isSearchFieldEditing && !kIsiOS14_5AndUp ) {
+		[[%c(SBIconController) sharedInstance] dismissLibraryOverlayAnimated:YES];
+	}
+	%orig;
+}
+%end
+
+%hook SBHLibraryViewController
+- (void)willDismissSearchController:(id)arg1 {
+	%orig;
+	if ( enableTweak && appLibrarytMode == 2 && kIsiOS14_5AndUp ) {
+		[[self containerViewController]setActive:YES animated:NO];
+	}
+}
+- (void)libraryTableViewControllerWillDisappear:(id)arg1 {
+	if ( enableTweak && appLibrarytMode == 2 && ![self containerViewController].isActive && kIsiOS14_5AndUp ) {
 		[[%c(SBIconController) sharedInstance] dismissLibraryOverlayAnimated:YES];
 	}
 	%orig;
@@ -205,7 +229,7 @@ void TweakSettingsChanged() {
 	bool origValue = %orig;
 	if ( enableTweak && appLibrarytMode == 404 ) {
 		return NO;
-	} else if ( enableTweak && appLibrarytMode == ( 1 | 2 ) ) {
+	} else if ( enableTweak ) {
 		return YES;
 	}
 	return origValue;
@@ -214,7 +238,7 @@ void TweakSettingsChanged() {
 	bool origValue = %orig;
 	if ( enableTweak && appLibrarytMode == 404 ) {
 		return NO;
-	} else if ( enableTweak && appLibrarytMode == ( 1 | 2 ) ) {
+	} else if ( enableTweak ) {
 		return YES;
 	}
 	return origValue;
