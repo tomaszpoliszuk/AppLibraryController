@@ -64,9 +64,33 @@
 			PostNotification = com.tomaszpoliszuk.applibrarycontroller.settingschanged;
 		},
 		{
+			cell = PSGroupCell;
+			label = "Newly Downloaded Apps";
+		},
+		{
+			cell = PSSegmentCell;
+			key = "SBHomeAutomaticallyAddsNewApplications";
+			default = 0;
+			defaults = com.apple.springboard;
+			PostNotification = com.apple.springboard-prefsChanged;
+			validValues = (
+				0,
+				1,
+			);
+			validTitles = (
+				"Add to Home Screen",
+				"App Library Only",
+			);
+			height = 55;
+		},
+		{
+			cell = PSGroupCell;
+			label = "NOTIFICATION_BADGES";
+		},
+		{
 			cell = PSSwitchCell;
-			key = SBHomeScreenShowsBadgesInAppLibrary;
-			label = NOTIFICATION_BADGES;
+			key = "SBHomeScreenShowsBadgesInAppLibrary";
+			label = "Show in App Library";
 			default = 1;
 			defaults = com.apple.springboard;
 			PostNotification = com.apple.springboard-prefsChanged;
