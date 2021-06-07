@@ -368,7 +368,7 @@ void TweakSettingsChanged() {
 %hook SBHomeScreenOverlayViewController
 -(double)presentationProgress {
 	double origValue = %orig;
-	if ( enableTweak && appLibrarytMode != 404 ) {
+	if ( enableTweak && appLibrarytMode == 2 ) {
 		[[self rightSidebarViewController].view setAlpha:origValue];
 	}
 	return origValue;
