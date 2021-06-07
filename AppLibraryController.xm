@@ -3,8 +3,7 @@
  *
  * App Library Controller is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * the Free Software Foundation, either version 3 of the License.
  *
  * App Library Controller is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -369,7 +368,9 @@ void TweakSettingsChanged() {
 %hook SBHomeScreenOverlayViewController
 -(double)presentationProgress {
 	double origValue = %orig;
-	[[self rightSidebarViewController].view setAlpha:origValue];
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		[[self rightSidebarViewController].view setAlpha:origValue];
+	}
 	return origValue;
 }
 %end
@@ -379,84 +380,102 @@ void TweakSettingsChanged() {
 %hook SBHLibrarySearchController
 - (void)viewDidAppear:(bool)arg1 {
 	%orig;
-	SBHSearchBar *searchBar = [self valueForKey:@"_searchBar"];
-	UIView *containerView = [self valueForKey:@"_containerView"];
-	UIView *contentContainerView = [self valueForKey:@"_contentContainerView"];
-	UIView *searchResultsContainerView = [self valueForKey:@"_searchResultsContainerView"];
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		SBHSearchBar *searchBar = [self valueForKey:@"_searchBar"];
+		UIView *containerView = [self valueForKey:@"_containerView"];
+		UIView *contentContainerView = [self valueForKey:@"_contentContainerView"];
+		UIView *searchResultsContainerView = [self valueForKey:@"_searchResultsContainerView"];
 
-	CGRect selfFrame = self.view.frame;
-	[containerView setFrame:selfFrame];
-	[contentContainerView setFrame:selfFrame];
-	[searchResultsContainerView setFrame:selfFrame];
+		CGRect selfFrame = self.view.frame;
+		[containerView setFrame:selfFrame];
+		[contentContainerView setFrame:selfFrame];
+		[searchResultsContainerView setFrame:selfFrame];
 
-	UIEdgeInsets searchTextFieldHorizontalEdgeInsets = [searchBar searchTextFieldHorizontalEdgeInsets];
+		UIEdgeInsets searchTextFieldHorizontalEdgeInsets = [searchBar searchTextFieldHorizontalEdgeInsets];
 
-	searchTextFieldHorizontalEdgeInsets.left = 23;
-	searchTextFieldHorizontalEdgeInsets.right = 23;
+		searchTextFieldHorizontalEdgeInsets.left = 23;
+		searchTextFieldHorizontalEdgeInsets.right = 23;
 
-	[searchBar setSearchTextFieldHorizontalEdgeInsets:searchTextFieldHorizontalEdgeInsets];
+		[searchBar setSearchTextFieldHorizontalEdgeInsets:searchTextFieldHorizontalEdgeInsets];
+	}
 }
 - (void)_layoutSearchViews {
 	%orig;
-	MTMaterialView *searchBackdropView = [self valueForKey:@"_searchBackdropView"];
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		MTMaterialView *searchBackdropView = [self valueForKey:@"_searchBackdropView"];
 
-	CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-	CGFloat height = [[UIScreen mainScreen] bounds].size.height;
+		CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+		CGFloat height = [[UIScreen mainScreen] bounds].size.height;
 
-	CGRect fullScreenFrame = CGRectMake(
-		-100,
-		-100,
-		width + 200,
-		height + 200
-	);
-	[searchBackdropView setBounds:fullScreenFrame];
-	[searchBackdropView setFrame:fullScreenFrame];
+		CGRect fullScreenFrame = CGRectMake(
+			-100,
+			-100,
+			width + 200,
+			height + 200
+		);
+		[searchBackdropView setBounds:fullScreenFrame];
+		[searchBackdropView setFrame:fullScreenFrame];
+	}
 }
 %end
 
 %hook SBHLibraryPodFolderController
 - (void)viewDidAppear:(bool)arg1 {
 	%orig;
-	UIView *containerView = [self containerView];
-	CGRect containerFrame = containerView.frame;
-	[self.view setFrame:containerFrame];
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		UIView *containerView = [self containerView];
+		CGRect containerFrame = containerView.frame;
+		[self.view setFrame:containerFrame];
+	}
 }
 %end
 
 %hook _SBHLibraryPodIconListView
 - (CGRect)frame {
 	CGRect origValue = %orig;
-	CGRect newContainerFrame = origValue;
-	newContainerFrame.size.width = 393;
-	return newContainerFrame;
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		CGRect newContainerFrame = origValue;
+		newContainerFrame.size.width = 393;
+		return newContainerFrame;
+	}
+	return origValue;
 }
 - (CGRect)iconLayoutRect {
 	CGRect origValue = %orig;
-	CGRect newFrame = origValue;
-	newFrame.size.width = 393;
-	return newFrame;
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		CGRect newFrame = origValue;
+		newFrame.size.width = 393;
+		return newFrame;
+	}
+	return origValue;
 }
 
 - (CGSize)iconSpacing {
 	CGSize origValue = %orig;
-	CGSize newSize = origValue;
-	newSize.width = 33;
-	newSize.height = 37;
-	return newSize;
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		CGSize newSize = origValue;
+		newSize.width = 33;
+		newSize.height = 37;
+		return newSize;
+	}
+	return origValue;
 }
 - (CGSize)effectiveIconSpacing {
 	CGSize origValue = %orig;
-	CGSize newSize = origValue;
-	newSize.width = 33;
-	newSize.height = 37;
-	return newSize;
+	if ( enableTweak && appLibrarytMode != 404 ) {
+		CGSize newSize = origValue;
+		newSize.width = 33;
+		newSize.height = 37;
+		return newSize;
+	}
+	return origValue;
 }
 %end
 
 %hook SBHIconManager
 - (bool)rootFolder:(id)arg1 canAddIcon:(id)arg2 toIconList:(id)arg3 inFolder:(id)arg4 {
 	bool origValue = %orig;
-	if ( [arg4 isKindOfClass:%c( SBHLibraryCategoriesRootFolder )] ) {
+	if ( enableTweak && appLibrarytMode != 404 && [arg4 isKindOfClass:%c( SBHLibraryCategoriesRootFolder )] ) {
 		return YES;
 	}
 	return origValue;
@@ -466,7 +485,7 @@ void TweakSettingsChanged() {
 %hook SBIconView
 - (bool)allowsAccessoryView {
 	bool origValue = %orig;
-	if ( [[self _viewControllerForAncestor] isKindOfClass:%c( SBHIconLibraryTableViewController )] || [[self _viewControllerForAncestor] isKindOfClass:%c( SBHLibraryCategoryIconViewController )] || [[self _viewControllerForAncestor] isKindOfClass:%c( SBHLibraryPodCategoryFolderController )] ) {
+	if ( enableTweak && appLibrarytMode != 404 && ( [[self _viewControllerForAncestor] isKindOfClass:%c( SBHIconLibraryTableViewController )] || [[self _viewControllerForAncestor] isKindOfClass:%c( SBHLibraryCategoryIconViewController )] || [[self _viewControllerForAncestor] isKindOfClass:%c( SBHLibraryPodCategoryFolderController )] ) ) {
 		NSMutableDictionary *defaults = [NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/Library/Preferences/com.apple.springboard.plist", NSHomeDirectory()]];
 		bool sbHomeScreenShowsBadgesInAppLibrary = [[defaults objectForKey:@"SBHomeScreenShowsBadgesInAppLibrary"] boolValue];
 		return sbHomeScreenShowsBadgesInAppLibrary;
@@ -478,7 +497,7 @@ void TweakSettingsChanged() {
 %hook SBHIconManager
 - (bool)iconLocationAllowsBadging:(id)arg1 {
 	bool origValue = %orig;
-	if ( [arg1 isKindOfClass:%c( SBHIconLibraryTableViewController )] || [arg1 isKindOfClass:%c( SBIconLocationAppLibraryCategoryPod )] || [arg1 isKindOfClass:%c( SBIconLocationAppLibraryCategoryPodRecents )] || [arg1 isKindOfClass:%c( SBIconLocationAppLibraryCategoryPodSuggestions )] ) {
+	if ( enableTweak && appLibrarytMode != 404 && ( [arg1 isKindOfClass:%c( SBHIconLibraryTableViewController )] || [arg1 isKindOfClass:%c( SBIconLocationAppLibraryCategoryPod )] || [arg1 isKindOfClass:%c( SBIconLocationAppLibraryCategoryPodRecents )] || [arg1 isKindOfClass:%c( SBIconLocationAppLibraryCategoryPodSuggestions )] ) ) {
 		NSMutableDictionary *defaults = [NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/Library/Preferences/com.apple.springboard.plist", NSHomeDirectory()]];
 		bool sbHomeScreenShowsBadgesInAppLibrary = [[defaults objectForKey:@"SBHomeScreenShowsBadgesInAppLibrary"] boolValue];
 		return sbHomeScreenShowsBadgesInAppLibrary;

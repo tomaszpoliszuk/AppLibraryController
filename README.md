@@ -7,6 +7,7 @@ iOS 14 and above
 ## Features:
 * Select UI Style of App Library (Default, Light, Dark)
 * Select Mode (Enabled, Alphabetic List only, Disabled)
+* Newly Downloaded Apps - Add to Home Screen/App Library Only
 * Show/Hide Notification Badges (also in Alphabetic List)
 * Alphabetic List Settings:
 	* Rounded Search Field (Enabled/Disabled)
@@ -28,3 +29,6 @@ iOS 14 and above
 ![settings](screenshots/applibrarycontroller1.png)
 ![app library example](screenshots/applibrarycontroller2.jpg)
 ![app library example](screenshots/applibrarycontroller3.jpg)
+
+## Credits:
+* [ZethyyXD](https://www.reddit.com/user/ZethyyXD) for testing this tweak on iPadOS
