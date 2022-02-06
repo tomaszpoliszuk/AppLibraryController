@@ -1,5 +1,5 @@
 /* App Library Controller - Control App Library on iOS/iPadOS
- * Copyright (C) 2020 Tomasz Poliszuk
+ * (c) Copyright 2020-2022 Tomasz Poliszuk
  *
  * App Library Controller is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
