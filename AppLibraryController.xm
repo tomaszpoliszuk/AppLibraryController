@@ -29,11 +29,6 @@
 @interface MTMaterialView : UIView
 @end
 
-@interface SBIconController : UIViewController
-+ (id)sharedInstance;
-- (void)dismissLibraryOverlayAnimated:(bool)arg1;
-@end
-
 @interface SBFTouchPassThroughView : UIView
 @end
 
@@ -51,8 +46,19 @@
 
 @interface SBFolderController : SBNestingViewController
 @end
+
 @interface SBHLibraryPodFolderController : SBFolderController
 @property (nonatomic,readonly) UIView * containerView;
+@end
+
+@interface SBRootFolderController : SBFolderController
+@property (getter=isEditing, nonatomic) bool editing;
+@end
+
+@interface SBIconController : UIViewController
+@property (getter=_rootFolderController, nonatomic, readonly) SBRootFolderController *rootFolderController;
++ (id)sharedInstance;
+- (void)dismissLibraryOverlayAnimated:(bool)arg1;
 @end
 
 @protocol SBHOccludable
@@ -160,7 +166,7 @@ void TweakSettingsChanged() {
 %hook SBHLibraryViewController
 - (void)willDismissSearchController:(id)arg1 {
 	%orig;
-	if ( enableTweak && appLibrarytMode == 2 && kIsiOS14_5AndUp ) {
+	if ( enableTweak && appLibrarytMode == 2 && kIsiOS14_5AndUp && ![[[%c(SBIconController) sharedInstance] _rootFolderController] isEditing] ) {
 		[[self containerViewController] setActive:YES animated:NO];
 	}
 }
