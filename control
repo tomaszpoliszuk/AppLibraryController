@@ -1,10 +1,10 @@
 Package: com.tomaszpoliszuk.applibrarycontroller
-Depends: firmware (>= 14.0), mobilesubstrate, preferenceloader
+Depends: firmware (>= 14.0), firmware (<= 15.0), mobilesubstrate, preferenceloader
 Replaces: com.tomaszpoliszuk.applibraryenabler, com.tomaszpoliszuk.applibrarydisabler, com.tomaszpoliszuk.activatorlistenersforapplibrary
 Provides: com.tomaszpoliszuk.applibraryenabler, com.tomaszpoliszuk.applibrarydisabler, com.tomaszpoliszuk.activatorlistenersforapplibrary
 Conflicts: com.tomaszpoliszuk.applibraryenabler, com.tomaszpoliszuk.applibrarydisabler, com.tomaszpoliszuk.activatorlistenersforapplibrary
 Name: App Library Controller
-Version: 1.4
+Version: 1.4.1
 Architecture: iphoneos-arm
 Description: Control App Library
 Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=applibrarycontrollerDp

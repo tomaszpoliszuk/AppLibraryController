@@ -2,7 +2,7 @@
 Control App Library
 
 ## Compatibility
-iOS 14 and above
+iOS 14
 
 ## Features:
 * Select UI Style of App Library (Default, Light, Dark)

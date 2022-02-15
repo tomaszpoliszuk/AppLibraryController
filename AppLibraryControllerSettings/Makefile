@@ -1,5 +1,3 @@
-SYSROOT = $(THEOS)/sdks/iPhoneOS13.6.sdk
-
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = AppLibraryControllerSettings

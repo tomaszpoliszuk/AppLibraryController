@@ -15,81 +15,7 @@
  */
 
 
-@interface UIView (AppLibraryController)
--(id)_viewControllerForAncestor;
-@end
-
-@interface SBHSearchBar : UIView
-@property (assign,nonatomic) UIEdgeInsets searchTextFieldHorizontalEdgeInsets;
-@end
-
-@interface SBIconView : UIView
-@end
-
-@interface MTMaterialView : UIView
-@end
-
-@interface SBFTouchPassThroughView : UIView
-@end
-
-@interface SBHLibrarySearchController : UIViewController
-- (bool)isActive;
-- (bool)isSearchFieldEditing;
-- (void)setActive:(bool)arg1 animated:(bool)arg2;
-@end
-
-@interface SBNestingViewController : UIViewController
-@end
-@interface SBHLibraryViewController : SBNestingViewController
-@property (nonatomic, readonly) SBHLibrarySearchController *containerViewController;
-@end
-
-@interface SBFolderController : SBNestingViewController
-@end
-
-@interface SBHLibraryPodFolderController : SBFolderController
-@property (nonatomic,readonly) UIView * containerView;
-@end
-
-@interface SBRootFolderController : SBFolderController
-@property (getter=isEditing, nonatomic) bool editing;
-@end
-
-@interface SBIconController : UIViewController
-@property (getter=_rootFolderController, nonatomic, readonly) SBRootFolderController *rootFolderController;
-+ (id)sharedInstance;
-- (void)dismissLibraryOverlayAnimated:(bool)arg1;
-@end
-
-@protocol SBHOccludable
-@end
-
-@interface SBHomeScreenOverlayViewController : UIViewController
-@property (nonatomic,retain) NSLayoutConstraint * contentWidthConstraint;
-@property (nonatomic, retain) UIViewController<SBHOccludable> *rightSidebarViewController;
-@end
-
-
-@interface SBIconListView : UIView
-- (NSString *)iconLocation;
-@end
-@interface _SBHLibraryPodIconListView : SBIconListView
-@end
-
-@interface SBFolderContainerView : SBFTouchPassThroughView
-@end
-
-@interface SBFolderView : UIView
-@end
-@interface SBHLibraryPodFolderView : SBFolderView
-@end
-
-
-NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
-
-#define kIsiOS14_5AndUp [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){14, 5, 0}]
-
-#define kIsiPadOS ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#import "headers.h"
 
 NSMutableDictionary *tweakSettings;
 
@@ -111,24 +37,24 @@ static bool foldersTitles;
 static bool foldersLabels;
 
 void TweakSettingsChanged() {
-	NSUserDefaults *tweakSettings = [[NSUserDefaults alloc] initWithSuiteName:domainString];
+	NSUserDefaults *tweakSettings = [[NSUserDefaults alloc] initWithSuiteName:kPackageIdentifier];
 
-	enableTweak = [( [tweakSettings objectForKey:@"enableTweak"] ?: @(YES) ) boolValue];
+	enableTweak = [([tweakSettings objectForKey:@"enableTweak"] ?: @(YES)) boolValue];
 
 	uiStyle = [([tweakSettings valueForKey:@"uiStyle"] ?: @(999)) integerValue];
 
 	appLibrarytMode = [([tweakSettings valueForKey:@"appLibrarytMode"] ?: @(2)) integerValue];
 
-	appLibraryGesture = [( [tweakSettings objectForKey:@"appLibraryGesture"] ?: @(YES) ) boolValue];
+	appLibraryGesture = [([tweakSettings objectForKey:@"appLibraryGesture"] ?: @(YES)) boolValue];
 
-	alphabeticListRoundedSearchField = [( [tweakSettings objectForKey:@"alphabeticListRoundedSearchField"] ?: @(YES) ) boolValue];
+	alphabeticListRoundedSearchField = [( [tweakSettings objectForKey:@"alphabeticListRoundedSearchField"] ?: @(YES)) boolValue];
 	alphabeticListHeaders = [([tweakSettings valueForKey:@"alphabeticListHeaders"] ?: @(0)) integerValue];
 
-	categoriesLabels = [( [tweakSettings objectForKey:@"categoriesLabels"] ?: @(YES) ) boolValue];
-	categoriesBackground = [( [tweakSettings objectForKey:@"categoriesBackground"] ?: @(YES) ) boolValue];
+	categoriesLabels = [([tweakSettings objectForKey:@"categoriesLabels"] ?: @(YES)) boolValue];
+	categoriesBackground = [([tweakSettings objectForKey:@"categoriesBackground"] ?: @(YES)) boolValue];
 
-	foldersTitles = [( [tweakSettings objectForKey:@"foldersTitles"] ?: @(YES) ) boolValue];
-	foldersLabels = [( [tweakSettings objectForKey:@"foldersLabels"] ?: @(YES) ) boolValue];
+	foldersTitles = [([tweakSettings objectForKey:@"foldersTitles"] ?: @(YES)) boolValue];
+	foldersLabels = [([tweakSettings objectForKey:@"foldersLabels"] ?: @(YES)) boolValue];
 }
 
 %hook SBHLibrarySearchController
@@ -361,7 +287,7 @@ void TweakSettingsChanged() {
 %hook SBIconView
 - (bool)allowsAccessoryView {
 	bool origValue = %orig;
-	if ( enableTweak && [[self _viewControllerForAncestor] isKindOfClass:%c(SBHIconLibraryTableViewController)]) {
+	if ( enableTweak && [[self _viewControllerForAncestor] isKindOfClass:%c(SBHIconLibraryTableViewController)] ) {
 		NSMutableDictionary *defaults = [NSMutableDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/Library/Preferences/com.apple.springboard.plist", NSHomeDirectory()]];
 		bool sbHomeScreenShowsBadgesInAppLibrary = [[defaults objectForKey:@"SBHomeScreenShowsBadgesInAppLibrary"] boolValue];
 		return sbHomeScreenShowsBadgesInAppLibrary;

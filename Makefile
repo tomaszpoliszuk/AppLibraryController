@@ -3,11 +3,10 @@ FINALPACKAGE = 1
 INSTALL_TARGET_PROCESSES = SpringBoard
 
 export ARCHS = arm64 arm64e
-export TARGET = iphone:clang:14.4
+export TARGET = iphone:clang:14.4:14
 
 export PREFIX=/Volumes/Xcode_11.7/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/
-
-SYSROOT =$(THEOS)/sdks/iPhoneOS14.4.sdk
+export SYSROOT = $(THEOS)/sdks/iPhoneOS14.4.sdk
 
 include $(THEOS)/makefiles/common.mk
 

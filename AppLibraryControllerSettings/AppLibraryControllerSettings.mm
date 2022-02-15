@@ -15,41 +15,14 @@
  */
 
 
-#import <Preferences/PSListController.h>
-#import <Preferences/PSSpecifier.h>
-
-//typedef enum {
-//	None					= 0,
-//	RestartRenderServer		= (1 << 0), // 1 in decimal, also relaunch backboardd
-//	SnapshotTransition		= (1 << 1), // 2 in decimal
-//	FadeToBlackTransition	= (1 << 2), // 4 in decimal
-//} SBSRelaunchActionStyle;
-
-NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
-
-@interface BSAction : NSObject
-@end
-@interface SBSRelaunchAction : BSAction
-+ (id)actionWithReason:(id)arg1 options:(unsigned long long)arg2 targetURL:(id)arg3;
-@end
-
-@interface FBSSystemService : NSObject
-+ (id)sharedService;
-- (void)sendActions:(id)arg1 withResult:(id /* block */)arg2;
-@end
-
-@interface PSListController (AppLibraryController)
-@end
-
-@interface AppLibraryControllerSettings : PSListController
-@end
+#import "headers.h"
 
 @implementation AppLibraryControllerSettings
 - (NSArray *)specifiers {
-	if (!_specifiers) {
+	if ( !_specifiers ) {
 		_specifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
 		if ( ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Activator.dylib"] ) {
-			for(PSSpecifier* specifier in _specifiers) {
+			for( PSSpecifier* specifier in _specifiers ) {
 				NSString* key = [specifier propertyForKey:@"key"];
 				if( [key hasPrefix:@"activator"] ) {
 					[self removeSpecifier:specifier];
@@ -61,7 +34,7 @@ NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
 }
 - (instancetype)init {
 	self = [super init];
-	if (self) {
+	if ( self ) {
 		UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Respring" style:UIBarButtonItemStylePlain target:self action:@selector(respringDevice)];
 		self.navigationItem.rightBarButtonItem = applyButton;
 	}
@@ -81,7 +54,7 @@ NSString *const domainString = @"com.tomaszpoliszuk.applibrarycontroller";
 	[self presentViewController:confirmRespringAlert animated:YES completion:nil];
 }
 - (void)resetSettings {
-	NSUserDefaults *tweakSettings = [[NSUserDefaults alloc] initWithSuiteName:domainString];
+	NSUserDefaults *tweakSettings = [[NSUserDefaults alloc] initWithSuiteName:kPackageIdentifier];
 	UIAlertController *resetSettingsAlert = [UIAlertController alertControllerWithTitle:@"Reset App Library Controller Settings" message:@"Do you want to reset settings?" preferredStyle:UIAlertControllerStyleAlert];
 	UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
 		for(NSString* key in [[tweakSettings dictionaryRepresentation] allKeys]) {
